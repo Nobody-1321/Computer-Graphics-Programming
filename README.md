@@ -1,4 +1,15 @@
-# Computer Graphics Programming in Opengl with c++ 
+# Computer Graphics Programming in Opengl 
+This project contains practical examples, demos, and resources related to 3D graphics programming using OpenGL. Perfect for those looking to learn core concepts like:
+
+- Geometric representation and transformations
+
+- Rendering pipeline
+
+- Shaders (GLSL) and GPU management
+
+- Basic/advanced lighting techniques
+
+- Optimizations and best practices
 
 ---------
 ## Build & Run
@@ -9,11 +20,11 @@
 
 1. clone the repository.
 ```sh
-git clone 
+git clone git@github.com:Nobody-1321/Computer-Graphics-Programming.git
 ```
 2. Move to the directory 
 ```sh
-cd 
+cd Computer-Graphics-Programming
 ```
 
 3. Use conan C++ to manage the dependencies. "you can learn how to use it here [conan tutorial](https://docs.conan.io/2/tutorial.html)" 

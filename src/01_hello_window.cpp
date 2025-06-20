@@ -22,8 +22,8 @@ void init(GLFWwindow* window){
 
 // Function to update the display
 void display(GLFWwindow* window){
-    glClear(GL_COLOR_BUFFER_BIT);       
-    glClearColor(0.58f, 0.0f, 0.007f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.58f, 0.0f, 0.007f, 1.0f);       // Set the clear color to a dark red shade
 }
 
 int main() {
@@ -39,7 +39,7 @@ int main() {
 
     //monitor properties
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, " program_2_1 ", nullptr, nullptr);    
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, " 01_hello_window ", nullptr, nullptr);    
     std::cout << "width " <<mode->width <<std::endl;
     std::cout << "height " <<mode->height <<std::endl;
     std::cout << "refresh " << mode->refreshRate << std::endl;
