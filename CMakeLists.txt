@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 set(LIBRARIES_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/glad
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/utils
 )
 
 foreach(dir ${LIBRARIES_DIR})
@@ -37,7 +38,7 @@ foreach(SOURCE_FILE ${SOURCE_FILES})
         ${SOURCE_FILE}
     )
 
-    target_link_libraries(${SOURCE_FILE_NAME} PRIVATE glad glfw glm::glm ${OPENGL_LIBRARIES})
+    target_link_libraries(${SOURCE_FILE_NAME} PRIVATE glad utils glfw glm::glm ${OPENGL_LIBRARIES})
 
     set_target_properties(${SOURCE_FILE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/programs
