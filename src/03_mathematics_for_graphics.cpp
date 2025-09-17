@@ -128,7 +128,7 @@ int main() {
 
     // Get monitor properties
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, " 02_triangles ", nullptr, nullptr);    
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, " 03_mathematics_for_graphics ", nullptr, nullptr);
 
     if (!window) {
         glfwTerminate();
