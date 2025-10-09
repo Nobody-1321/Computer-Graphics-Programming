@@ -18,12 +18,14 @@ GLuint renderingProgram;
 GLuint vao[numVAOs];
 GLuint vbo[numVBOs];
 
-GLuint mvLoc, projLoc;
+GLuint vLoc, projLoc;
 int width, height;
-float aspect;
+float aspect, timeFactor;
+GLuint tfLoc;
 glm::mat4 pMat, vMat, mMat, mvMat;
 bool colorsActive = true;
 double startTime;
+
 void setupVertices(void) {
     // 12 triangles * 3 vertices * 3 values (x, y, z)
     float CubeVertexPositions[108] = {
@@ -84,8 +86,9 @@ void setupVertices(void) {
 
 void init (GLFWwindow *window){
     renderingProgram = Utils::createShaderProgram(
-        "./shaders/Vshader_05.glsl",
+        "./shaders/Vshader_051.glsl",
         "./shaders/Fshader_05.glsl");
+
     if (Utils::checkOpenGLError()){
         std::cout << "ERROR: Could not create the shader program" << std::endl;
     }
@@ -102,45 +105,34 @@ void init (GLFWwindow *window){
 }
 
 void display (GLFWwindow *window, double currentTime){
-/*
-    // Verificar si han pasado 5 segundos y eliminar el buffer de colores    
-        if (currentTime - startTime > 5.0 && colorsActive) {
-        glDisableVertexAttribArray(1);  // Deshabilitar el atributo de colores
-        glDeleteBuffers(1, &vbo[1]);    // Eliminar el buffer de colores
-        colorsActive = false;
-        std::cout << "Buffer de colores eliminado después de 5 segundos" << std::endl;
-    }
-*/
+
     glClear(GL_DEPTH_BUFFER_BIT);
 	glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(renderingProgram);
     
-    mvLoc = glGetUniformLocation(renderingProgram, "mv_matrix");
+    vLoc = glGetUniformLocation(renderingProgram, "v_matrix");
     projLoc = glGetUniformLocation(renderingProgram, "proj_matrix");
 
-    mMat = glm::translate(glm::mat4(1.0f), glm::vec3(cubeLocX, cubeLocY, cubeLocZ));
-    mMat = glm::scale(mMat, glm::vec3(1.5f, 1.5f, 1.5f));
-    mMat = glm::rotate(mMat, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    
     vMat = glm::lookAt(
     glm::vec3(cameraX, cameraY, cameraZ), // eye position
     glm::vec3(0.0f, 0.0f, 0.0f),         // center: where the eye is looking at
     glm::vec3(0.0f, 1.0f, 0.0f)          // up: the upward direction
     );
 
-    mvMat = vMat * mMat;
-
-    glUniformMatrix4fv(mvLoc, 1, GL_FALSE, glm::value_ptr(mvMat));
+    glUniformMatrix4fv(vLoc, 1, GL_FALSE, glm::value_ptr(vMat));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(pMat));
      
+    timeFactor = ((float)currentTime);
+    tfLoc = glGetUniformLocation(renderingProgram, "tf");
+    glUniform1f(tfLoc, (float)timeFactor);
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     
-    
     glBindVertexArray(vao[0]);    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, 100000);
+
     GLenum err = glGetError();
     if (err != GL_NO_ERROR) {
         std::cerr << "Error al renderizar: " << err << std::endl;
