@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "../../SOIL2/src/SOIL2/SOIL2.h"
 #include <GLFW/glfw3native.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -22,10 +23,23 @@ private:
 
 public:
 	Utils();
+	
 	static bool checkOpenGLError();
+	static bool isExtensionSupported(const char* extName);
+
 	static GLuint createShaderProgramCP(const char *cp);
 	static GLuint createShaderProgram(const char *vp, const char *fp);
 	static GLuint createShaderProgram(const char *vp, const char *gp, const char *fp);
 	static GLuint createShaderProgram(const char *vp, const char *tCS, const char* tES, const char *fp);
 	static GLuint createShaderProgram(const char *vp, const char *tCS, const char* tES, char *gp, const char *fp);
+
+	// Texture loading utility
+	static GLuint loadTexture(const char *texImagePath);
+
+
+	static float* goldAmbient();
+	static float* goldDiffuse();
+	static float* goldSpecular();
+	static float goldShininess();
+
 };

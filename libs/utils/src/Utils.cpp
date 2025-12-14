@@ -27,6 +27,18 @@ bool Utils::checkOpenGLError() {
 	return foundError;
 }
 
+bool Utils::isExtensionSupported(const char* extName) {
+    GLint numExtensions;
+    glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
+    for (GLint i = 0; i < numExtensions; ++i) {
+        const char* extension = reinterpret_cast<const char*>(glGetStringi(GL_EXTENSIONS, i));
+        if (std::strcmp(extension, extName) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Utils::printShaderLog(GLuint shader) {
 	int len = 0;
 	int chWrittn = 0;
@@ -150,3 +162,35 @@ GLuint Utils::createShaderProgram(const char *vp, const char *tCS, const char* t
 	finalizeShaderProgram(vtgfprogram);
 	return vtgfprogram;
 }
+
+// Texture loading utility
+GLuint Utils::loadTexture(const char *texImagePath)
+{
+    GLuint textureRef;
+    textureRef = SOIL_load_OGL_texture(texImagePath, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    if (textureRef == 0) cout << "didnt find texture file " << texImagePath << endl;
+    
+	// ----- mipmap/anisotropic section
+    glBindTexture(GL_TEXTURE_2D, textureRef);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    
+	glGenerateMipmap(GL_TEXTURE_2D);
+	
+    if (isExtensionSupported("GL_EXT_texture_filter_anisotropic")) {
+        GLfloat anisoset = 0.0f;
+        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &anisoset);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, anisoset);
+    }
+	else {
+		cout << "anisotropic filtering not supported" << endl;
+	}
+    // ----- end of mipmap/anisotropic section
+    return textureRef;
+}
+
+// GOLD material - ambient, diffuse, specular, and shininess
+float* Utils::goldAmbient() { static float a[4] = { 0.2473f, 0.1995f, 0.0745f, 1 }; return (float*)a; }
+float* Utils::goldDiffuse() { static float a[4] = { 0.7516f, 0.6065f, 0.2265f, 1 }; return (float*)a; }
+float* Utils::goldSpecular() { static float a[4] = { 0.6283f, 0.5559f, 0.3661f, 1 }; return (float*)a; }
+float Utils::goldShininess() { return 51.2f; }

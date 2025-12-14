@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(LIBRARIES_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/glad
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/SOIL2
 )
 
 foreach(dir ${LIBRARIES_DIR})
@@ -20,6 +21,7 @@ find_package(OpenGL REQUIRED)
 
 set(SOURCE_MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(SOURCE_SHADERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/shaders)
+set(SOURCE_TEXTURES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/textures)
 
 file(GLOB SOURCE_FILES ${SOURCE_MAIN_DIR}/*.cpp)
     
@@ -38,7 +40,7 @@ foreach(SOURCE_FILE ${SOURCE_FILES})
         ${SOURCE_FILE}
     )
 
-    target_link_libraries(${SOURCE_FILE_NAME} PRIVATE glad utils glfw glm::glm ${OPENGL_LIBRARIES})
+    target_link_libraries(${SOURCE_FILE_NAME} PRIVATE glad utils glfw glm::glm ${OPENGL_LIBRARIES} soil2)
 
     set_target_properties(${SOURCE_FILE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/programs
@@ -49,4 +51,10 @@ endforeach()
 file(GLOB GLSL_FILES "${SOURCE_SHADERS_DIR}/*.glsl")
 foreach(GLSL_FILE ${GLSL_FILES})
     file(COPY ${GLSL_FILE} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/programs/shaders)
+endforeach()
+
+# Copy texture files to the same directory as the executable
+file(GLOB TEXTURE_FILES "${SOURCE_TEXTURES_DIR}/*")
+foreach(TEXTURE_FILE ${TEXTURE_FILES})
+    file(COPY ${TEXTURE_FILE} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/programs/textures)
 endforeach()

@@ -9,10 +9,12 @@ find_package(OpenGL REQUIRED)
 
 set(LIBRARY_HEADERS_UTILS
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Torus.hpp
 )
 
 set(LIBRARY_SOURCE_UTILS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Utils.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Torus.cpp
 )
 
 add_library(utils STATIC ${LIBRARY_SOURCE_UTILS})
