@@ -7,6 +7,8 @@ uniform mat4 model;
 uniform mat4 projection;
 uniform vec4 lightColor;
 uniform vec3 viewPos;
+uniform mat4 normalMatrix;
+
 
 out vec4 ourColorV;
 out vec3 lightColorV;

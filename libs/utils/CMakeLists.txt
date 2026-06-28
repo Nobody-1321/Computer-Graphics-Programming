@@ -10,11 +10,13 @@ find_package(OpenGL REQUIRED)
 set(LIBRARY_HEADERS_UTILS
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Torus.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Sphere.hpp
 )
 
 set(LIBRARY_SOURCE_UTILS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Torus.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Sphere.cpp
 )
 
 add_library(utils STATIC ${LIBRARY_SOURCE_UTILS})
